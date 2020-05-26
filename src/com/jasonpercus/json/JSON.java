@@ -122,6 +122,7 @@ public class JSON <O> {
      * @param json Correspond à la chaîne de caractère au format json représentant l'objet ou la liste
      * @return Retourne un objet JSON
      */
+    @SuppressWarnings({"Convert2Diamond", "unchecked"})
     public static <O> JSON deserialize(Class<O> type, String json){
         checkGsonInstalled();
         try{
@@ -129,8 +130,8 @@ public class JSON <O> {
             return new JSON(ETypeJson.OBJECT, null, obj);
         }catch(Exception e){}
         try{
-            java.util.List<O> list = JSON.getList(type, json);
-            return new JSON(ETypeJson.ARRAY, list, null);
+            java.util.List<O> list = (java.util.List<O>) JSON.getList(type, json);
+            return new JSON<O>(ETypeJson.ARRAY, list, null);
         }catch(Exception e){}
         return null;
     }
